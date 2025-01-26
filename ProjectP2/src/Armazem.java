@@ -60,6 +60,15 @@ public class Armazem {
     public ArrayList<Mercadoria> getMercadorias() {
         return mercadorias;
     }
+
+    public Mercadoria encontrarMercadoriaPorTag(String tag){
+        for (Mercadoria m : mercadorias){
+            if(m.getTag().equals(tag)){
+                return m;
+            }
+        }
+        return null;
+    }
    
     public void adicionarMercadoria(Mercadoria mercadoria){
         mercadorias.add(mercadoria);
@@ -68,6 +77,16 @@ public class Armazem {
     public void removerMercadoria(Mercadoria mercadoria){
         mercadorias.remove(mercadoria);
         System.out.println("Mercadoria " + mercadoria.getId() + " removida do " + getNome());
+    }
+
+    public String listarMercadorias(){
+        if(mercadorias.length() == 0){
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for(Mercadoria m : mercadorias){
+            sb.append(m.toString());
+        }
     }
 
 

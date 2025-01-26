@@ -2,21 +2,16 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class GerenciadorTransportadoras {
-    private ArrayList<Transportadora> transportadoras = new ArrayList<>();
-    private GerenciadorArmazens gA;
-    private Transportes transportes;
+public class GerenciadorTransportadoras{
+    private ArrayList<Transportadora> transportadoras;
 
-    public GerenciadorTransportadoras(GerenciadorArmazens gerenciadorArmazens){
-        this.gA = gerenciadorArmazens;
-        this.transportes = new Transportes();
+    public GerenciadorTransportadoras(){
+        this.transportadoras = new ArrayList<>();
     }
-
 
     public void setTransportadoras(List<Transportadora> transportadoras) {
         this.transportadoras = new ArrayList<>(transportadoras);
     }
-
 
     public ArrayList<Transportadora> getTransportadoras() {
         return transportadoras;
@@ -24,6 +19,24 @@ public class GerenciadorTransportadoras {
 
     public ArrayList<Armazem> getArmazens() {
         return gA.getArmazens();
+    }
+
+    public  TransportadoraInterna encontrarTransportadoraInternaArmazem(Armazem arm){
+        for(Transportadora t : transportadoras){
+            if(t instanceof TransportadoraInterna && ((TransportadoraInterna)t).getArmazemAssociado().equals(arm)){
+                return t;
+            }
+        }
+        return null;
+    }
+
+    public TransportadoraExterna encontrarTransportadoraExterna(){
+        for(Transportadora t : transportadoras){
+            if(t instanceof TransportadoraExterna){
+                return t;
+            }
+        }
+        return null;
     }
 
     public void adicionarTransportadoraInterna(Consola consola) {

@@ -153,13 +153,23 @@ public class App {
             System.out.println("\n_____________________________:Movimentar Mercadoria:_____________________________");
                     String nomeArmazemOrigem = consola.lerString("Digite o nome do armazém de origem:");
                     String nomeArmazemDestino = consola.lerString("Digite o nome do armazém de destino:");
-                    transportes.listarMercadorias(nomeArmazemOrigem);
+                    Armazem armOrigem = gerenciadorArmazens.encontrarArmazemPorNome(nomeArmazemOrigem);
+                    Armazem armDestino = gerenciadorArmazens.encontrarArmazemPorNome(nomeArmazemDestino);
+                    if(armOrigem == null){
+                        consola.escrever("Impossivel encontrar armazem de origem");
+                        return;
+                    }
+                    if(armDestino == null){
+                        consola.escrever("Impossivel encontrar armazem de destino");
+                        return;
+                    }
+                    consola.escrever(armOrigem.listarMercadorias());
                     String tagIoT = consola.lerString("Digite a tag IoT da mercadoria:");
-                    transportes.transportarMercadoria(tagIoT, nomeArmazemOrigem, nomeArmazemDestino);
-                    transportes.listarMercadorias(nomeArmazemDestino);
+                    gerenciadorMercadorias.transportarMercadoria(tagIoT, nomeArmazemOrigem, nomeArmazemDestino, gerenciadorArmazens, gerenciadorTransportadoras);
+                    consola.escrever(armDestino.listarMercadorias());
                 break;
             default:
-            System.out.println("Opcao invalida");
+            consola.escrever("Opcao invalida");
                 break;
             
             case 5:

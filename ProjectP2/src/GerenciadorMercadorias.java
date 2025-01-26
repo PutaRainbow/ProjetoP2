@@ -2,8 +2,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GerenciadorMercadorias {
+public class GerenciadorMercadorias implements Transportes{
     private ArrayList<Mercadoria> mercadorias;
+    
     public GerenciadorMercadorias() {
         this.mercadorias = new ArrayList<>(); 
     }
@@ -83,7 +84,7 @@ public class GerenciadorMercadorias {
     }
 
     public void atualizarMercadoria(Consola consola, int id) {
-for (Mercadoria mercadoria : mercadorias) {
+        for (Mercadoria mercadoria : mercadorias) {
         if (mercadoria.getId() == id) {
             consola.escrever("Atualizando mercadoria ID: " + id);
             
@@ -145,6 +146,28 @@ for (Mercadoria mercadoria : mercadorias) {
         return null;
     }
 
+    public void transportarMercadoria(String tagIoT, String nomeArmazemOrigem, String nomeArmazemDestino,GerenciadorArmazens gerArm,GerenciadorTransportadoras gerTransport){
+        Armazem origem = gerArm.encontrarArmazemPorNome(nomeArmazemOrigem);
+        Armazem destino = gerArm.encontrarArmazemPorNome(nomeArmazemDestino);
+        if(origem == null || destino == null) return;
+        Mercadoria mercadoria = origem.encontrarMercadoriaPorTag(tagIoT);
+        if(mercadoria == null){
+            consola.escrever("A mercadoria que deseja mover não foi encontrada no armazém de origem");
+            return;
+        }
+        TransportadoraInterna transportadoraInternaO = gerTransport.encontrarTransportadoraInternaArmazem(origem);
+        TransportadoraExterna transportadoraExterna = gerTransport.encontrarTransportadoraExterna();
+        TransportadoraInterna transportadoraInternaD = gerTransport.encontrarTransportadoraInternaArmazem(destino);
+
+        if (transportadoraInternaO == null || transportadoraInternaD == null) {
+            System.out.println("Erro: Transportadora adequada não encontrada.");
+            return;
+        }
+        origem.removerMercadoria(mercadoria);
+        System.out.println("Mercadoria " + tagIoT + " transportada internamente para a transportadora interna.");
+        System.out.println("Mercadoria " + tagIoT + " transportada externamente para o destino.");
+        destino.adicionarMercadoria(mercadoria);
+    }
 
     @Override
     public String toString() {

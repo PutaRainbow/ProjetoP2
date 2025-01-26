@@ -58,6 +58,15 @@ public class GerenciadorArmazens {
         }
     }
 
+    public Armazem encontrarArmazemPorNome(String nomeArmazem){
+        for (Armazem a : armazens){
+            if(a.getNome.equalsIgnoreCase(nomeArmazem)){
+                return a;
+            }
+        }
+        return null;
+    }
+
     public void atualizarArmazem(Consola consola) {
         String nomeEscolhido = consola.lerString("Nome do armazém para atualizar:");
         for (Armazem armazem : armazens) {
